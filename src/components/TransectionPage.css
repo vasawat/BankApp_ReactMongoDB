@@ -9,9 +9,28 @@
 }
 @media screen and (max-width: 767px) {
   .TransectionsBox {
-        width: calc(100% - 20px);
+    width: calc(100% - 20px);
     padding: 20px;
     font-size: 10px;
   }
+  td:nth-child(1) {
+    min-width: 29px; /* หรือขนาดที่คุณต้องการ */
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+  td:nth-child(2) {
+    max-width: 90px; /* หรือขนาดที่คุณต้องการ */
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+    td:nth-child(3) {
+    max-width: 90px; /* หรือขนาดที่คุณต้องการ */
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+    td:nth-child(5) {
+    max-width: 69px; /* หรือขนาดที่คุณต้องการ */
+    word-wrap: break-word;
+    word-break: break-all;
+  }
 }
-

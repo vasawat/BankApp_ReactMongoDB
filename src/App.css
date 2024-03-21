@@ -47,4 +47,7 @@ footer {
     justify-content: center;
     text-align: center;
   }
+  .ms-auto{
+    margin-left: 0 !important;
+  }
 }
