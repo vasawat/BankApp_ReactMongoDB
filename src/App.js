@@ -8,17 +8,15 @@ import TransectionPage from "./components/TransectionPage";
 function App() {
   return (
     <BankProvider>
-      
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />}></Route>
-            <Route
-              path="/Transaction/:user_id"
-              element={<TransectionPage />}
-            ></Route>
-          </Routes>
-        </BrowserRouter>
-      
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route
+            path="/Transaction/:user_id"
+            element={<TransectionPage />}
+          ></Route>
+        </Routes>
+      </BrowserRouter>
     </BankProvider>
   );
 }

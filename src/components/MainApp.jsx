@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
+import { BsPiggyBank } from "react-icons/bs";
+
 export default function MainApp(params) {
   const {
     userLogined,
@@ -22,8 +24,9 @@ export default function MainApp(params) {
       <div className="formBox">
         {userLogined && userLogined._id ? (
           <div>
-            <h3>hi {userLogined.email}</h3>
-            <h4>Your balance is : {userLogined.balance} $</h4>
+            <BsPiggyBank className="Logo" />
+            <h5>hi {userLogined.email}</h5>
+            <h5>Your balance : {userLogined.balance} $</h5>
 
             <Button className="mt-2" onClick={() => setTransferShow(true)}>
               Transfer
@@ -72,9 +75,10 @@ export default function MainApp(params) {
             </Form>
           </div>
         ) : (
-          <div className="box">
-            <h1 className="text-center mt-5">Welcome</h1>
-            <h2 className="text-center mt-5">Please Login</h2>
+          <div className="welcomeBox text-center">
+            <BsPiggyBank className="Logo mt-5" />
+            <p className="mt-2 welcomeBoxText">Welcome</p>
+            <p className="mt-2">Please Login</p>
           </div>
         )}
       </div>

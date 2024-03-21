@@ -1,7 +1,17 @@
 .TransectionsBox {
   width: 800px;
-  height: auto;
   padding: 40px;
+  min-height: 420px;
   border-radius: 10px;
   background-color: white;
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
+@media screen and (max-width: 767px) {
+  .TransectionsBox {
+        width: calc(100% - 20px);
+    padding: 20px;
+    font-size: 10px;
+  }
+}
+

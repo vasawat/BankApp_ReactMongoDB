@@ -2,12 +2,14 @@ a {
   text-decoration: none;
 }
 .App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   background: linear-gradient(
     181deg,
     rgb(2, 0, 97) 15%,
     rgb(97, 149, 219) 158.5%
   );
-  height: auto;
 }
 .MainSection {
   display: flex;
@@ -15,15 +17,34 @@ a {
   margin: 20px 0;
 }
 footer {
-  margin-top: 172px;
+  margin-top: auto;
+  background-color: rgb(133, 198, 255);
 }
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap");
-.Logo {
+.LogoText {
   font-family: "Playfair Display SC", serif;
   font-weight: 700;
   font-style: normal;
   font-size: 40px;
   color: white;
   text-decoration: none;
-  margin-left: 70px;
+}
+.Logo {
+  width: 60px;
+  height: 60px;
+  color: black;
+}
+
+.myNav {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .myNav {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+  }
 }

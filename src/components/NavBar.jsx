@@ -29,53 +29,59 @@ export default function NavBar(params) {
 
   return (
     <Nav className="p-4">
-      <Nav.Item ><Link className="Logo" to={"/"}>BankApp</Link></Nav.Item>
-      {userToken ? (
-        <Nav.Item className="ms-auto">
-          <Link to={`/`} className="me-2 btn btn-primary">
-            Home
-          </Link>
-          <Link
-            to={`/Transaction/${userToken}`}
-            className="me-2 btn btn-primary"
-          >
-            Transection
-          </Link>
-          <Link
-            className="btn btn-primary me-2"
-            to={`/`}
-            onClick={() => {
-              setUserLogined(null);
-              setUserToken(null);
-              localStorage.removeItem("token");
-              const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                  toast.onmouseenter = Swal.stopTimer;
-                  toast.onmouseleave = Swal.resumeTimer;
-                },
-              });
-              Toast.fire({
-                icon: "success",
-                title: "Logout successfully",
-              });
-            }}
-          >
-            Logout
+      <div className="myNav">
+        <Nav.Item>
+          <Link className="LogoText" to={"/"}>
+            BankApp
           </Link>
         </Nav.Item>
-      ) : (
-        <Nav.Item className="ms-auto">
-          <Button onClick={() => setLoginShow(true)} className="me-2">
-            login
-          </Button>
-          <Button onClick={() => setRegisterShow(true)}>register</Button>
-        </Nav.Item>
-      )}
+        {userToken ? (
+          <Nav.Item className="ms-auto">
+            <Link to={`/`} className="me-2 btn btn-primary">
+              Home
+            </Link>
+            <Link
+              to={`/Transaction/${userToken}`}
+              className="me-2 btn btn-primary"
+            >
+              Transection
+            </Link>
+            <Link
+              className="btn btn-primary me-2"
+              to={`/`}
+              onClick={() => {
+                setUserLogined(null);
+                setUserToken(null);
+                localStorage.removeItem("token");
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 2000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                  },
+                });
+                Toast.fire({
+                  icon: "success",
+                  title: "Logout successfully",
+                });
+              }}
+            >
+              Logout
+            </Link>
+          </Nav.Item>
+        ) : (
+          <Nav.Item className="ms-auto">
+            <Button onClick={() => setLoginShow(true)} className="me-2">
+              login
+            </Button>
+            <Button onClick={() => setRegisterShow(true)}>register</Button>
+          </Nav.Item>
+        )}
+      </div>
 
       <Modal show={loginShow} onHide={() => setLoginShow(false)}>
         <Modal.Header closeButton>

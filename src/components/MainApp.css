@@ -2,9 +2,19 @@
   background-color: white;
   border-radius: 10px;
   width: 400px;
+  min-height: 420px;
   padding: 20px;
   margin-top: 20px;
 }
-.box {
+.welcomeBox {
   margin-bottom: 121px;
+}
+.welcomeBoxText {
+  font-size: 30px;
+}
+
+@media screen and (max-width: 767px) {
+  .formBox {
+    width: 300px;
+  }
 }
