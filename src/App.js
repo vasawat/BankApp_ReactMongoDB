@@ -12,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/Transaction" element={<TransectionPage />}></Route>
+          <Route path="*" element={<Home />}></Route>
         </Routes>
       </BrowserRouter>
     </BankProvider>
