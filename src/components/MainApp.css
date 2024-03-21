@@ -17,4 +17,7 @@
   .formBox {
     width: 300px;
   }
+  .ms-auto {
+    margin-left: 0 !important;
+  }
 }
