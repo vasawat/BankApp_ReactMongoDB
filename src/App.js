@@ -11,10 +11,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route
-            path="/Transaction"
-            element={<TransectionPage />}
-          ></Route>
+          <Route path="/Transaction" element={<TransectionPage />}></Route>
         </Routes>
       </BrowserRouter>
     </BankProvider>

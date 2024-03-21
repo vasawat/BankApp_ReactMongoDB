@@ -1,14 +1,19 @@
 import NavBar from "./NavBar";
 import "./TransectionPage.css";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { BankContext } from "../context/BankContext";
 import Table from "react-bootstrap/Table";
 import Footer from "./Footer";
 export default function TransectionPage() {
-  const { userTransection } = useContext(BankContext);
+  const { userTransection, checkToken } =
+    useContext(BankContext);
   const sortedTransections = userTransection.sort((a, b) => {
     return new Date(a.datetime) - new Date(b.datetime);
   });
+  useEffect(()=>{
+    checkToken();
+    // eslint-disable-next-line
+  },[])
   return (
     <section className="App">
       <NavBar />

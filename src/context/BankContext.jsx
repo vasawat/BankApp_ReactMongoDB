@@ -253,7 +253,7 @@ export const BankProvider = ({ children }) => {
   useEffect(() => {
     fetchTransection();
     // eslint-disable-next-line
-  }, [userLogined, handleTransfer]);
+  }, [userLogined]);
   return (
     <BankContext.Provider
       value={{
@@ -275,6 +275,8 @@ export const BankProvider = ({ children }) => {
         setUserToken,
         PassNotMatch,
         userTransection,
+        fetchTransection,
+        checkToken,
       }}
     >
       {children}
