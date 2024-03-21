@@ -12,7 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route
-            path="/Transaction/:user_id"
+            path="/Transaction"
             element={<TransectionPage />}
           ></Route>
         </Routes>

@@ -41,7 +41,7 @@ export default function NavBar(params) {
               Home
             </Link>
             <Link
-              to={`/Transaction/${userToken}`}
+              to={`/Transaction`}
               className="me-2 btn btn-primary"
             >
               Transection

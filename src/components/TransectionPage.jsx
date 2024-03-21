@@ -28,7 +28,7 @@ export default function TransectionPage() {
             <tbody>
               {sortedTransections.length > 0 &&
                 sortedTransections.map((transection, index) => (
-                  <tr className="">
+                  <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{transection.from}</td>
                     <td>{transection.to}</td>
