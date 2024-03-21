@@ -30,7 +30,6 @@ export const BankProvider = ({ children }) => {
         .then((res) => res.json())
         .then((data) => setUserLogined(data));
     } else {
-      console.log("Token not found");
     }
   };
 
@@ -46,7 +45,6 @@ export const BankProvider = ({ children }) => {
       .then((res) => res.json())
       .then((data) => setUserTransection(data));
     }else{
-      console.log("User not found");
     }
 
   }

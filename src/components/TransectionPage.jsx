@@ -9,7 +9,6 @@ export default function TransectionPage() {
   const sortedTransections = userTransection.sort((a, b) => {
     return new Date(a.datetime) - new Date(b.datetime);
   });
-  console.log(userTransection);
   return (
     <section className="App">
       <NavBar />
