@@ -19,7 +19,7 @@ export const BankProvider = ({ children }) => {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.userId;
       setUserToken(userId);
-      fetch(`http://localhost:5000/user/token`, {
+      fetch(`https://bankapp-reactmongodb-backend.onrender.com/user/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export const BankProvider = ({ children }) => {
 
   const fetchTransection = ()=> {
     if (userLogined){
-    fetch(`http://localhost:5000/user/transaction`, {
+    fetch(`https://bankapp-reactmongodb-backend.onrender.com/user/transaction`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export const BankProvider = ({ children }) => {
 
   }
   const handleLogin = (data) => {
-    fetch("http://localhost:5000/auth/login", {
+    fetch("https://bankapp-reactmongodb-backend.onrender.com/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -91,7 +91,7 @@ export const BankProvider = ({ children }) => {
       alert("password not match");
       setPassNotMatch(true);
     } else {
-      fetch("http://localhost:5000/auth/register", {
+      fetch("https://bankapp-reactmongodb-backend.onrender.com/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +117,7 @@ export const BankProvider = ({ children }) => {
     }
   };
   const createTransection = async (data) => {
-    await fetch("http://localhost:5000/user/createtransaction", {
+    await fetch("https://bankapp-reactmongodb-backend.onrender.com/user/createtransaction", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -127,7 +127,7 @@ export const BankProvider = ({ children }) => {
   };
   const handleDeposit = async (data) => {
     let newData = { ...data, userId: userLogined._id };
-    await fetch("http://localhost:5000/user/deposit", {
+    await fetch("https://bankapp-reactmongodb-backend.onrender.com/user/deposit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -154,7 +154,7 @@ export const BankProvider = ({ children }) => {
   };
   const handleWithdrew = async (data) => {
     let newData = { ...data, userId: userLogined._id };
-    await fetch("http://localhost:5000/user/withdrew", {
+    await fetch("https://bankapp-reactmongodb-backend.onrender.com/user/withdrew", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -201,7 +201,7 @@ export const BankProvider = ({ children }) => {
   };
   const handleTransfer = async (data) => {
     let newData = { ...data, userId: userLogined._id };
-    await fetch("http://localhost:5000/user/transfer", {
+    await fetch("https://bankapp-reactmongodb-backend.onrender.com/user/transfer", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
