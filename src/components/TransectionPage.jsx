@@ -4,16 +4,22 @@ import { useContext, useEffect } from "react";
 import { BankContext } from "../context/BankContext";
 import Table from "react-bootstrap/Table";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 export default function TransectionPage() {
-  const { userTransection, checkToken } =
-    useContext(BankContext);
+  const { userTransection, checkToken } = useContext(BankContext);
   const sortedTransections = userTransection.sort((a, b) => {
     return new Date(a.datetime) - new Date(b.datetime);
   });
-  useEffect(()=>{
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    if (token === null) {
+      navigate("/");
+    }
     checkToken();
     // eslint-disable-next-line
-  },[])
+  }, []);
+
   return (
     <section className="App">
       <NavBar />
