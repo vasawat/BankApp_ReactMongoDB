@@ -12,15 +12,15 @@ export default function NavBar(params) {
   const {
     handleLogin,
     handleRegister,
+    userLogined,
     setUserLogined,
     loginShow,
     setLoginShow,
     registerShow,
     setRegisterShow,
     wrongPass,
-    userToken,
-    setUserToken,
     PassNotMatch,
+    registerError,
   } = useContext(BankContext);
 
   const { register: userLogin, handleSubmit: loginHandleSubmit } = useForm();
@@ -35,15 +35,12 @@ export default function NavBar(params) {
             BankApp
           </Link>
         </Nav.Item>
-        {userToken ? (
+        {userLogined ? (
           <Nav.Item className="ms-auto">
             <Link to={`/`} className="me-2 btn btn-primary">
               Home
             </Link>
-            <Link
-              to={`/Transaction`}
-              className="me-2 btn btn-primary"
-            >
+            <Link to={`/Transaction`} className="me-2 btn btn-primary">
               Transection
             </Link>
             <Link
@@ -51,23 +48,32 @@ export default function NavBar(params) {
               to={`/`}
               onClick={() => {
                 setUserLogined(null);
-                setUserToken(null);
                 localStorage.removeItem("token");
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: "top-end",
-                  showConfirmButton: false,
-                  timer: 2000,
-                  timerProgressBar: true,
-                  didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer;
-                  },
-                });
-                Toast.fire({
-                  icon: "success",
-                  title: "Logout successfully",
-                });
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                  Swal.fire({
+                    title: "Logout successfully",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                } else {
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                      toast.onmouseenter = Swal.stopTimer;
+                      toast.onmouseleave = Swal.resumeTimer;
+                    },
+                  });
+                  Toast.fire({
+                    icon: "success",
+                    title: "Logout successfully",
+                  });
+                }
               }}
             >
               Logout
@@ -161,6 +167,11 @@ export default function NavBar(params) {
             {PassNotMatch ? (
               <Form.Label className="text-danger">
                 Password Not Match
+              </Form.Label>
+            ) : null}
+            {registerError ? (
+              <Form.Label className="text-danger">
+                This email is already used
               </Form.Label>
             ) : null}
             <Modal.Footer>

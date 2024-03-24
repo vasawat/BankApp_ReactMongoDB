@@ -6,10 +6,10 @@ export const BankContext = createContext();
 export const BankProvider = ({ children }) => {
   const [userLogined, setUserLogined] = useState(null);
   const [loginShow, setLoginShow] = useState(false);
-  const [userToken, setUserToken] = useState(null);
   const [registerShow, setRegisterShow] = useState(false);
   const [transferShow, setTransferShow] = useState(false);
   const [wrongPass, setWrongPass] = useState(false);
+  const [registerError, setRegisterError] = useState(false);
   const [PassNotMatch, setPassNotMatch] = useState(false);
   const [userTransection, setUserTransection] = useState([]);
 
@@ -17,37 +17,33 @@ export const BankProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwtDecode(token);
-      const userId = decodedToken.userId;
-      setUserToken(userId);
       fetch(`https://bankapp-reactmongodb-backend.onrender.com/user/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ userId: userId }),
+        body: JSON.stringify({ userId: decodedToken.sub }),
       })
         .then((res) => res.json())
         .then((data) => setUserLogined(data));
     } else {
     }
   };
-
-  const fetchTransection = ()=> {
-    if (userLogined){
-    fetch(`https://bankapp-reactmongodb-backend.onrender.com/user/transaction`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userEmail: userLogined.email }),
-    })
-      .then((res) => res.json())
-      .then((data) => setUserTransection(data));
-    }else{
+  const fetchTransection = () => {
+    if (userLogined) {
+      fetch(`https://bankapp-reactmongodb-backend.onrender.com/user/transaction`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userEmail: userLogined.email }),
+      })
+        .then((res) => res.json())
+        .then((data) => setUserTransection(data));
+    } else {
     }
-
-  }
+  };
   const handleLogin = (data) => {
     fetch("https://bankapp-reactmongodb-backend.onrender.com/auth/login", {
       method: "POST",
@@ -66,52 +62,79 @@ export const BankProvider = ({ children }) => {
           setLoginShow(false);
           localStorage.setItem("token", data.token);
           checkToken();
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            },
-          });
-          Toast.fire({
-            icon: "success",
-            title: "login successfully",
-          });
+          const isMobile = window.innerWidth <= 768;
+          if (isMobile) {
+            Swal.fire({
+              title: "login successfully",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
+              icon: "success",
+              title: "login successfully",
+            });
+          }
         }
       });
   };
   const handleRegister = (data) => {
     if (data.passwordRegister !== data.confirmPasswordRegister) {
-      alert("password not match");
       setPassNotMatch(true);
     } else {
+      setPassNotMatch(false);
       fetch("https://bankapp-reactmongodb-backend.onrender.com/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      });
-      setRegisterShow(false);
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        },
-      });
-      Toast.fire({
-        icon: "success",
-        title: "Register successfully",
-      });
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            setRegisterError(true);
+          } else {
+            setRegisterShow(false);
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+              Swal.fire({
+                title: "Register successfully",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            } else {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.onmouseenter = Swal.stopTimer;
+                  toast.onmouseleave = Swal.resumeTimer;
+                },
+              });
+              Toast.fire({
+                icon: "success",
+                title: "Register successfully",
+              });
+            }
+          }
+        });
     }
   };
   const createTransection = async (data) => {
@@ -134,21 +157,31 @@ export const BankProvider = ({ children }) => {
     })
       .then((res) => res.json())
       .then((data) => setUserLogined(data));
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      },
-    });
-    Toast.fire({
-      icon: "success",
-      title: "Deposit successfully",
-    });
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      Swal.fire({
+        title: "Deposit successfully",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      const Toast = Swal.mixin({
+        toast: true,
+        showConfirmButton: false,
+        position: "top-end",
+        timer: 1500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        },
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Deposit successfully",
+      });
+    }
   };
   const handleWithdrew = async (data) => {
     let newData = { ...data, userId: userLogined._id };
@@ -161,39 +194,59 @@ export const BankProvider = ({ children }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        const isMobile = window.innerWidth <= 768;
         if (data.error) {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            },
-          });
-          Toast.fire({
-            icon: "error",
-            title: data.error,
-          });
+          if (isMobile) {
+            Swal.fire({
+              title: data.error,
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
+              icon: "error",
+              title: data.error,
+            });
+          }
         } else {
           setUserLogined(data);
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            },
-          });
-          Toast.fire({
-            icon: "success",
-            title: "Withdrew successfully",
-          });
+
+          if (isMobile) {
+            Swal.fire({
+              title: "Withdrew successfully",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            const Toast = Swal.mixin({
+              toast: true,
+              showConfirmButton: false,
+              position: "top-end",
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Withdrew successfully",
+            });
+          }
         }
       });
   };
@@ -208,41 +261,60 @@ export const BankProvider = ({ children }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        const isMobile = window.innerWidth <= 768;
         if (data.error) {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            },
-          });
-          Toast.fire({
-            icon: "error",
-            title: "not enough balance",
-          });
+          if (isMobile) {
+            Swal.fire({
+              title: data.error,
+              icon: "error",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
+              icon: "error",
+              title: "not enough balance",
+            });
+          }
         } else {
           createTransection(newData);
           setUserLogined(data);
           setTransferShow(false);
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            },
-          });
-          Toast.fire({
-            icon: "success",
-            title: "Transfer successfully",
-          });
+          if (isMobile) {
+            Swal.fire({
+              title: "Transfer successfully",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Transfer successfully",
+            });
+          }
         }
       });
   };
@@ -271,12 +343,11 @@ export const BankProvider = ({ children }) => {
         transferShow,
         setTransferShow,
         handleTransfer,
-        userToken,
-        setUserToken,
         PassNotMatch,
         userTransection,
         fetchTransection,
         checkToken,
+        registerError,
       }}
     >
       {children}
