@@ -30,6 +30,15 @@ export const BankProvider = ({ children }) => {
     } else {
     }
   };
+  const checkTokenExpiration = () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const { exp } = JSON.parse(atob(token.split(".")[1]));
+    const now = Date.now() / 1000;
+    if (exp < now) {
+      localStorage.removeItem("token");
+    }
+  };
   const fetchTransection = () => {
     if (userLogined) {
       fetch(`https://bankapp-reactmongodb-backend.onrender.com/user/transaction`, {
@@ -321,6 +330,8 @@ export const BankProvider = ({ children }) => {
 
   useEffect(() => {
     checkToken();
+    const intervalId = setInterval(checkTokenExpiration, 60000);
+    return () => clearInterval(intervalId);
   }, []);
   useEffect(() => {
     fetchTransection();
